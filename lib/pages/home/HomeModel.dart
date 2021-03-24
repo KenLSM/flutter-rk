@@ -28,12 +28,12 @@ class StoryDetail {
     return StoryDetail(
         by: json['by'],
         id: json['id'],
-        kids: json['kids'],
+        kids: List<int>.from(json['kids']),
         score: json['score'],
         time: json['time'],
         title: json['title'],
         type: json['type'],
-        url: json['url']);
+        url: json['url'] != null ? json['url'] : '');
   }
 }
 

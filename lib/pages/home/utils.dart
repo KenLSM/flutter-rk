@@ -8,7 +8,7 @@ Future<List<int>> fetchStory() async {
       .get(Uri.https('hacker-news.firebaseio.com', 'v0/beststories.json'));
 
   var l = jsonDecode(resp.body);
-  return List<int>.from(l);
+  return List<int>.from(l).sublist(0, 20);
 }
 
 Future<StoryDetail> fetchStoryDetail(int id) async {
