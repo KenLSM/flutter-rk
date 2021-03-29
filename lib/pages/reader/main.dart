@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:my_app/components/appbar.dart';
@@ -39,7 +41,7 @@ class _ReaderRoute extends State<ReaderRoute> {
       });
     }
 
-    for (int i in detail.kids.sublist(0, 20)) {
+    for (int i in detail.kids.sublist(0, min(detail.kids.length, 20))) {
       final c = await utils.fetchStoryComments(i);
       setState(() {
         comments.add(c);
@@ -112,7 +114,29 @@ class Comments extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> ans = [];
     for (Comment c in this.comments) {
-      ans.add(Html(data: c.text));
+      ans.add(Container(
+          margin: EdgeInsets.all(5),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Text(
+                  c.by,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                Text(
+                  ' - ',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                Text(
+                  DateTime.fromMillisecondsSinceEpoch(c.time * 1000).toString(),
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ]),
+              Html(data: c.text),
+            ],
+          )));
     }
     return Column(children: ans);
   }

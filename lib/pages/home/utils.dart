@@ -13,6 +13,14 @@ Future<List<int>> fetchStory() async {
   return List<int>.from(l).sublist(0, 20);
 }
 
+Future<List<int>> fetchTopStory() async {
+  final resp = await http
+      .get(Uri.https('hacker-news.firebaseio.com', 'v0/topstories.json'));
+
+  var l = jsonDecode(resp.body);
+  return List<int>.from(l).sublist(0, 20);
+}
+
 Future<StoryDetail> fetchStoryDetail(int id) async {
   final resp = await http
       .get(Uri.https('hacker-news.firebaseio.com', 'v0/item/$id/.json'));
