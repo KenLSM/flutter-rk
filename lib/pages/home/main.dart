@@ -29,7 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   Map<int, StoryDetail?> storyIds = {};
   final List<Color> palette = [
     Colors.green,
@@ -62,41 +61,65 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final itemLength = storyIds.length;
-    final _row = storyIds.values
-        .whereType<StoryDetail>()
-        .map((e) => Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Expanded(
-                  child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colors.yellow,
-                            width: 1.0,
+    final _row = storyIds.values.whereType<StoryDetail>().map((e) => Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                height: 50,
+                // padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.yellow,
+                      width: 1.0,
+                    ),
+                  ),
+                  color: Colors.amber,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return ReaderRoute(e);
+                    }));
+                  },
+                  child: Row(children: [
+                    Container(
+                      width: 50,
+                      color: Colors.amberAccent,
+                      margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Score",
+                            style: Theme.of(context).textTheme.caption,
                           ),
-                        ),
-                        color: Colors.black38,
+                          Text(e.score.toString()),
+                        ],
                       ),
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ReaderRoute(e.id);
-                            }));
-                          },
-                          child: Text(e.title))))
-            ]));
+                    ),
+                    Expanded(
+                      child: Text(e.title),
+                    ),
+                  ]),
+                ),
+              ),
+            )
+          ],
+        ));
     return Scaffold(
-      appBar: FlutteryAppBar(title: 'Home Page'),
+      appBar: FlutteryAppBar(title: 'Top Headlines'),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text('$itemLength stories available'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Stories available: $itemLength',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            ..._row
+            ..._row,
           ],
         ),
       ),

@@ -24,6 +24,20 @@ class StoryDetail {
     required this.url,
   });
 
+  @override
+  String toString() {
+    return [
+      this.by,
+      this.id,
+      this.kids,
+      this.score,
+      this.time,
+      this.title,
+      this.type,
+      this.url,
+    ].toString();
+  }
+
   factory StoryDetail.fromJson(Map<String, dynamic> json) {
     return StoryDetail(
         by: json['by'],
